@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+node_modules/
+dist/
+build/
+coverage/
+.next/
+.venv/
+__pycache__/
+.pytest_cache/
+.idea/
+.vscode/
+.DS_Store
