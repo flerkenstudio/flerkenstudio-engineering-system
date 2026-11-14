@@ -11,3 +11,11 @@ These are cross-project defaults. Project-level `AGENTS.md` and explicit user-ap
 - Do not run destructive production operations, deploy, publish, or incur paid costs without explicit authorization.
 - Test changed behavior and report exact commands/results; never claim unrun checks passed.
 - Report uncertainty, security implications, migrations, and remaining risks honestly.
+
+- Prefer existing project helpers, native platform features, and already-installed dependencies before adding new dependencies.
+- Trace affected callers, tests, fixtures, exports, and configuration before changing shared behavior.
+- Avoid speculative features, wrappers, abstractions, and configurability without a demonstrated requirement.
+- Keep a change small but complete; never cut trust-boundary validation, security, accessibility, data-loss protection, or requested behavior.
+- For non-trivial new logic, add a focused test or self-check; report any meaningful checks not run.
+- For non-trivial coding, combine `karpathy-guidelines` and `ponytail` when available; use domain skills only when relevant.
+- For reviews, `code-review` is the broad review and `ponytail-review` adds a simplicity/YAGNI pass; avoid duplicate findings.

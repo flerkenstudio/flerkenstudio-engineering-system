@@ -1,6 +1,6 @@
 ---
 name: karpathy-guidelines
-description: Applies four Karpathy-inspired principles to reduce coding mistakes: think before coding, simplicity first, surgical changes, and goal-driven verification.
+description: "Applies four Karpathy-inspired principles to reduce coding mistakes: think before coding, simplicity first, surgical changes, and goal-driven verification."
 ---
 
 # Karpathy-inspired engineering guidelines
@@ -30,6 +30,12 @@ These principles are adapted in original wording from the public project at http
 - For bugs, create or identify a reproduction before changing code where practical.
 - For features, test expected behavior and important failure cases.
 - Verify each meaningful step; continue until criteria pass or explain the blocker.
+
+## Additional guardrails
+- Trace affected callers, tests, fixtures, exports, configuration, and data flows before editing.
+- Prefer existing project code, then standard-library/native features, then installed dependencies; add a dependency only when justified.
+- A short diff is not a goal if it hides behavior or weakens edge-case correctness.
+- For non-trivial logic, leave a focused test or self-check. Never trade away security, validation, accessibility, or data integrity for brevity.
 
 ## Working protocol
 1. Inspect.
