@@ -1,8 +1,8 @@
 # FAES v1.2.0 verification report
 
-**Build date:** 2026-11-18  
-**Input:** user-uploaded `faes-github.zip`  
-**Detected input version:** 1.1.0  
+**Build date:** 2026-11-18
+**Input:** user-uploaded `faes-github.zip`
+**Detected input version:** 1.1.0
 **Output:** FAES v1.2.0 with ECC integration bridge
 
 ## Passed checks

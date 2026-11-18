@@ -1,9 +1,9 @@
 # FAES v1.2.0 — ECC compatibility and license audit
 
-**Audit date:** 2026-11-18  
-**FAES source:** uploaded `faes-github.zip`, VERSION `1.1.0`  
-**ECC upstream:** https://github.com/affaan-m/ECC  
-**ECC Antigravity guide:** https://github.com/affaan-m/ECC/blob/main/docs/ANTIGRAVITY-GUIDE.md  
+**Audit date:** 2026-11-18
+**FAES source:** uploaded `faes-github.zip`, VERSION `1.1.0`
+**ECC upstream:** https://github.com/affaan-m/ECC
+**ECC Antigravity guide:** https://github.com/affaan-m/ECC/blob/main/docs/ANTIGRAVITY-GUIDE.md
 **Pinned package:** `ecc-universal@2.2.3`
 
 ## Executive result
