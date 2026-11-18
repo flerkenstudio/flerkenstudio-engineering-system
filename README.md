@@ -1,117 +1,83 @@
-# FlerkenStudio Antigravity Engineering System (FAES)
+# FlerkenStudio AI Engineering System (FAES) — v2.0.0
 
-A reusable, production-minded engineering playbook for Google Antigravity Agent/IDE and compatible CLI skill hosts. It provides global and workspace skills, always-on engineering rules, project templates, and repeatable delivery workflows.
+A modular, production-minded AI engineering system and multi-agent playbook for **Google Antigravity** (Tier 1 First-Class), **Claude Code**, **Cursor**, **Gemini CLI**, and compatible agent hosts.
 
-## What is included
-- `AGENTS.md`: always-on workspace engineering contract.
-- `skills/`: reusable Agent Skills (each has a `SKILL.md`), including Karpathy-inspired thinking and the Ponytail simplicity/review/audit toolset.
-- `instructions/`: detailed engineering standards for humans and agents.
-- `templates/`: PRD, architecture, API, database, security, ADR and project starter templates.
-- `workflows/`: practical step-by-step delivery playbooks.
-- `install/`: Windows PowerShell scripts for global, workspace, ECC integration, and verification.
-- `examples/`: sample project configuration.
+FAES delivers vendor-neutral engineering standards, reusable Agent Skills, always-on engineering rules, design engineering craft, and automated lifecycle verification across agent platforms.
 
-## Quick start — Antigravity Agent (no CLI required)
+## What is Included in v2.0.0
 
-1. Copy the FAES `AGENTS.md` into your project root. If one already exists, merge the rules manually; do not overwrite project-specific instructions.
-2. Copy the FAES `skills/` folders you want into `<project-root>/.agents/skills/` (or use the workspace installer below).
-3. Refresh/restart Antigravity and ask the Agent to list the skills it can access.
-4. Ask the Agent to use `karpathy-guidelines` and `ponytail` for a non-trivial task. Invoke review/audit skills from the skill picker or slash interface only if your installed Antigravity version exposes them.
+- **Multi-Agent Adapters (`adapters/`):**
+  - `adapters/antigravity/`: First-class Antigravity support (`AGENTS.md`, native protojson lifecycle hooks).
+  - `adapters/claude/`: Claude Code support (`CLAUDE.md`, shell hook configs, `.claude/skills/`).
+  - `adapters/cursor/`: Cursor IDE support (`.cursorrules`, `.cursor/rules/*.mdc`).
+  - `adapters/gemini/`: Google Gemini CLI support (`GEMINI.md`, `.gemini/skills/`).
+- **Core Engineering Skills (`skills/`):** 18 battle-tested skills including `karpathy-guidelines` and the Ponytail simplicity toolset (`ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, `ponytail-help`).
+- **Design Engineering Suite (New in v2.0.0):**
+  - `design-review`: Visual hierarchy, layout, contrast, and craft audit.
+  - `visual-qa`: Cross-viewport, dark/light theme, and rendering verification.
+  - `design-system`: 3-tier design token architecture and atomic component governance.
+  - `accessibility-review`: WCAG 2.2 compliance (24×24px AA mandatory SC 2.5.8 vs 44×44px AAA preferred SC 2.5.5).
+- **Optional Upstream Integrations:**
+  - `unslop`: Optional UI unslopping and typography refinement by Damir Sokolovsky (CC BY 4.0, pinned commit `620163eedb3529d9cd23a3994ed8d287d06f760d`).
+  - `ecc`: Everything Claude Code integration bridge (pinned v2.2.3).
+- **Cross-Platform Installers (`install/`):**
+  - Windows PowerShell: `install/win/` (`Install-Global.ps1`, `Install-Workspace.ps1`, `Verify-Installation.ps1`, `Install-ECC-Global.ps1`).
+  - POSIX Bash: `install/posix/` (`install-global.sh`, `install-workspace.sh`, `verify-installation.sh`).
 
-## Quick start — Windows PowerShell / CLI
+## Quick Start — Antigravity Agent (First-Class)
 
-1. Extract this repository or clone it from your GitHub repository.
-2. Open PowerShell in the repository root.
-3. Install globally (available to all Antigravity workspaces):
-
+1. **Global Installation:**
    ```powershell
    Set-ExecutionPolicy -Scope Process Bypass
-   .\install\Install-Global.ps1 -InstallGlobalInstructions
+   .\install\win\Install-Global.ps1 -InstallGlobalInstructions
    ```
-
-4. In each project, copy the workspace package:
-
+2. **Project Workspace Installation:**
    ```powershell
-   .\install\Install-Workspace.ps1 -ProjectPath 'C:\path\to\your-project'
+   .\install\win\Install-Workspace.ps1 -ProjectPath 'C:\path\to\project' -Agent antigravity
+   ```
+3. **Verify Skill Installation:**
+   ```powershell
+   .\install\win\Verify-Installation.ps1 -ProjectPath 'C:\path\to\project'
    ```
 
-5. Restart or refresh Antigravity and inspect the Customizations/skills view. In a skill-capable CLI host, invoke skills using that host’s supported skill syntax; slash-command availability varies by host and version.
+## Multi-Agent Quick Start
 
-## Antigravity locations
-
-- Global skills: `~/.gemini/config/skills/<skill-name>/SKILL.md`
-- Workspace skills: `<project-root>/.agents/skills/<skill-name>/SKILL.md`
-- Workspace instructions: `<project-root>/AGENTS.md`
-- Global instructions: `~/.gemini/AGENTS.md`
-
-These locations follow the current Antigravity documentation. See `docs/ANTIGRAVITY-SETUP.md`.
-
-## Agent and CLI support
-
-FAES has one shared set of `AGENTS.md` rules and `SKILL.md` skills. Use the same workspace installation for Antigravity Agent/IDE and a compatible CLI host. The Agent workflow does not require a terminal or CLI. CLI is optional for installation, verification, and skill invocation where the host supports Agent Skills.
-
-- Antigravity Agent/IDE: root `AGENTS.md` is the always-on project contract; workspace skills live in `.agents/skills/<skill>/SKILL.md`.
-- Antigravity CLI / other compatible skill hosts: install the same skills with the supplied PowerShell scripts or the host's documented skill mechanism. Do not install the upstream Ponytail plugin on top of bundled FAES Ponytail skills unless you intentionally want a separate duplicate installation.
-- The bundled `ponytail` skill supports lite/full/ultra/off as task instructions. Mode persistence, lifecycle hooks, and slash-command registration depend on the host; FAES does not claim those features when the host lacks them.
-- Use `install/Verify-Installation.ps1` to verify the local skill files. This verifies files on disk, not whether an AI host has loaded them.
-
-
-
-## ECC integration — v1.2.0
-
-FAES remains the primary engineering contract. ECC is an optional, upstream-maintained capability layer.
-
-- **Global:** install FAES skills/instructions and ECC's experimental native Antigravity plugin using `install/Install-Global.ps1` and `install/Install-ECC-Global.ps1`.
-- **Project:** install ECC's native rules, workflows, skills, and custom agents using `install/Install-ECC-Workspace.ps1`.
-- **Pinned upstream package:** `ecc-universal@2.2.3`, installed from the official npm registry when the wrapper is run.
-- **Hooks:** enabled once at global scope with the standard profile; project-local hooks are disabled to avoid duplicate event handling. The global plugin is experimental.
-- **Duplicates:** run both ECC verification scripts after installation and review any FAES skill-name overlaps.
-
-Example:
+Install FAES into any workspace for your chosen agent target:
 
 ```powershell
-# Global FAES baseline
-.\\install\\Install-Global.ps1 -InstallGlobalInstructions
+# Claude Code
+.\install\win\Install-Workspace.ps1 -ProjectPath 'C:\path\to\project' -Agent claude
 
-# Global ECC plugin + lifecycle hooks
-.\\install\\Install-ECC-Global.ps1
+# Cursor
+.\install\win\Install-Workspace.ps1 -ProjectPath 'C:\path\to\project' -Agent cursor
 
-# Project-local ECC customizations (hooks disabled here)
-.\\install\\Install-ECC-Workspace.ps1 -ProjectPath 'D:\\path\\to\\project'
+# Gemini CLI
+.\install\win\Install-Workspace.ps1 -ProjectPath 'C:\path\to\project' -Agent gemini-cli
 
-# Verify both scopes
-.\\install\\Test-ECC-Global.ps1
-.\\install\\Test-ECC-Compatibility.ps1 -ProjectPath 'D:\\path\\to\\project'
+# All Agents simultaneously
+.\install\win\Install-Workspace.ps1 -ProjectPath 'C:\path\to\project' -Agent all
 ```
 
-The global plugin uses ECC's documented `antigravity-home` target and is experimental. Node.js 18+, npm, and network access are required. Review the plugin manifest, hook configuration, and MCP configuration after installation. See `integrations/ecc/README.md` and `docs/COMPATIBILITY-AUDIT-ECC.md`.
+On Linux or macOS:
+```bash
+chmod +x install/posix/*.sh
+./install/posix/install-workspace.sh --project /path/to/project --agent antigravity
+```
 
-## Safe usage model
+## Core Engineering Principles
 
-FAES is an engineering guide, not a guarantee of secure or production-ready software. Agents must inspect the actual project, follow its existing conventions, run available checks, and clearly report what was not verified. Human review is required for security-sensitive changes, production migrations, credentials, payments, and deployment.
+1. **Think Before Coding:** Formulate assumptions, surface risks, and establish explicit acceptance criteria.
+2. **Simplicity First (Ponytail):** Choose the smallest complete solution over speculative abstractions.
+3. **Surgical Edits:** Keep diffs focused; do not touch unrelated code.
+4. **Goal-Driven Verification:** Run tests or execute code; never claim an unrun check passed.
+5. **Zero-Slop UI Craft:** Respect established visual patterns. Do not redesign functional interfaces without an explicit defect or user request.
+6. **Preserve Business Logic:** Visual changes must never break event handlers, forms, validation, or backend contracts.
 
-## Recommended first run
+## Attribution and Licensing
 
-Open a project in Antigravity and ask:
-
-> Read `AGENTS.md` and the relevant FAES skills. Inspect this repository without changing files. Summarize the architecture, stack, test commands, security-sensitive areas, and the top risks. Do not implement anything yet.
-
-Then use `workflows/new-project.md` or `workflows/feature-development.md`.
-
-## Adapting the system
-
-Keep global rules broadly applicable. Put stack- or product-specific requirements in the project-level `AGENTS.md` and `.agents/skills/`. Do not force one architecture, framework, database, or cloud provider on every product.
-
-## Karpathy-inspired principles and attribution
-
-The `karpathy-guidelines` skill is an original, concise adaptation of four publicly described principles: think before coding, simplicity first, surgical changes, and goal-driven execution. It is not a copy of the upstream repository's complete files. Upstream: https://github.com/multica-ai/andrej-karpathy-skills (MIT license as shown by its repository at time of review). Review upstream license and attribution before redistributing any upstream files.
-
-## Upstream inspiration and attribution
-
-- Karpathy-inspired guidelines: https://github.com/multica-ai/andrej-karpathy-skills — FAES retains its existing original-wording adaptation and does not bundle upstream files verbatim.
-- Ponytail: https://github.com/DietrichGebert/ponytail — FAES adds locally authored, interoperable skill instructions inspired by the repository's simplicity-first workflow; it does not bundle the upstream plugin, hooks, or command runtime.
-- See `THIRD-PARTY-NOTICES.md` for attribution and scope. Check upstream repositories and licenses before redistributing their files directly.
-
-## Versioning
-
-Use semantic versioning for FAES releases. Record changes in `CHANGELOG.md`. Validate skills and scripts before distributing a new version.
+FAES v2.0.0 is distributed under the MIT License.
+- **Karpathy-inspired Guidelines:** MIT License (inspired by Andrej Karpathy's principles).
+- **Ponytail:** MIT License (inspired by Dietrich Gebert's simplicity tooling).
+- **Everything Claude Code (ECC):** MIT License (Affaan Mustafa).
+- **Unslop:** Creative Commons Attribution 4.0 International (CC BY 4.0, Damir Sokolovsky).
+See `THIRD-PARTY-NOTICES.md` for complete notices and license text.

@@ -1,0 +1,10 @@
+# Cursor Engineering Rules (FAES v2.0.0)
+
+You are an engineering agent operating under the FlerkenStudio AI Engineering System (FAES v2.0.0).
+
+## Core Directives
+1. **Simplicity First:** Implement the smallest complete solution that fulfills the prompt. Avoid unnecessary abstractions, boilerplate, and speculative configuration.
+2. **Surgical Edits:** Keep diffs minimal and focused. Do not refactor unrelated files or change styles without explicit instructions.
+3. **Verify Everything:** Provide explicit verification commands (tests, curl requests, or script runs) for every new or modified behavior. Never assume unverified code works.
+4. **Security & Input Validation:** Always validate inputs at boundaries, use parameterized queries, and never commit secrets or tokens.
+5. **No Visual Slop:** Do not add purple gradient cards, excessive emojis, or unasked-for animations. Preserve established design patterns.

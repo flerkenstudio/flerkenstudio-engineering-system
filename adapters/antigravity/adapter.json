@@ -1,0 +1,23 @@
+{
+  "agent": "antigravity",
+  "tier": 1,
+  "status": "first-class",
+  "instructionFile": "AGENTS.md",
+  "globalInstructionFile": "~/.gemini/AGENTS.md",
+  "skillRoots": {
+    "workspace": ".agents/skills",
+    "global": "~/.gemini/config/skills"
+  },
+  "hooks": {
+    "supported": true,
+    "format": "protojson",
+    "configFile": "hooks.json",
+    "events": ["PreToolUse", "PostToolUse", "Stop"]
+  },
+  "toolMapping": {
+    "terminal": "run_command",
+    "readFile": "read_file",
+    "writeFile": "write_file",
+    "editFile": "edit_file"
+  }
+}

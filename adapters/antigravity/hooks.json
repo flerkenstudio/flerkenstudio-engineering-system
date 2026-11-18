@@ -1,0 +1,28 @@
+{
+  "description": "FAES v2.0.0 Antigravity Lifecycle Hook Configuration",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "description": "Validates shell commands against destructive patterns and security policies",
+        "command": "node",
+        "args": ["scripts/hooks/pre-tool-use.js"]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "edit_file|write_file",
+        "description": "Verifies syntax, format, and immutability invariants after edits",
+        "command": "node",
+        "args": ["scripts/hooks/post-tool-use.js"]
+      }
+    ],
+    "Stop": [
+      {
+        "description": "Verifies that all changed behavior has been tested before turn completion",
+        "command": "node",
+        "args": ["scripts/hooks/stop-check.js"]
+      }
+    ]
+  }
+}

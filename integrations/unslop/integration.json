@@ -1,0 +1,22 @@
+{
+  "name": "unslop",
+  "version": "1.0.0",
+  "upstream": {
+    "repository": "https://github.com/heydamir/unslop",
+    "author": "Damir Sokolovsky (@heydamir)",
+    "pinnedCommit": "620163eedb3529d9cd23a3994ed8d287d06f760d",
+    "license": "CC-BY-4.0"
+  },
+  "type": "optional-skill",
+  "skillPath": "skills/unslop",
+  "dependencies": {
+    "node": ">=18.0.0",
+    "playwright": "optional",
+    "ffmpeg": "optional"
+  },
+  "safeguards": [
+    "Zero-Slop / No-Op safeguard: do not propose redesigns on interfaces meeting design criteria",
+    "Preserve existing event handlers, state, and business logic",
+    "Strict CC-BY-4.0 attribution preserved in all distributions"
+  ]
+}

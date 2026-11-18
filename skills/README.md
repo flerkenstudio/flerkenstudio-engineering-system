@@ -1,4 +1,6 @@
-# FAES skills index — v1.2.0
+# FAES skills index — v2.0.0
+
+## Core Engineering Skills
 
 | Skill | Use when |
 |---|---|
@@ -21,4 +23,19 @@
 | `performance-engineering` | Measured performance diagnosis/optimization |
 | `project-onboarding` | Read-only discovery of an unfamiliar repository |
 
-Each skill is an independent Agent Skills-compatible directory containing `SKILL.md` with YAML frontmatter. `ponytail-review` adds a lean-code review lens; it does not replace the broader `code-review` skill.
+## Design Engineering Skills (v2.0.0)
+
+| Skill | Use when |
+|---|---|
+| `design-review` | Evaluating UI/UX against professional visual, ergonomic, and brand standards |
+| `visual-qa` | Inspecting rendered UI output across viewports, themes, and states |
+| `design-system` | Guiding design tokens, atomic component architecture, and UI libraries |
+| `accessibility-review` | WCAG 2.2 compliance verification (24×24px AA mandatory, 44×44px AAA preferred) |
+
+## Optional Integrations
+
+| Skill | Use when |
+|---|---|
+| `unslop` | Optional upstream design cleanup and typography refinement (Damir Sokolovsky, CC BY 4.0) |
+
+Each skill is an independent Agent Skills-compatible directory containing `SKILL.md` with YAML frontmatter.
