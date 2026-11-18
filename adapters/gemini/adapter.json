@@ -1,0 +1,22 @@
+{
+  "agent": "gemini-cli",
+  "tier": 2,
+  "status": "supported",
+  "instructionFile": "GEMINI.md",
+  "globalInstructionFile": "~/.gemini/GEMINI.md",
+  "skillRoots": {
+    "workspace": ".gemini/skills",
+    "global": "~/.gemini/skills"
+  },
+  "hooks": {
+    "supported": true,
+    "format": "shell",
+    "configFile": ".gemini/hooks.json"
+  },
+  "toolMapping": {
+    "terminal": "run_shell_command",
+    "readFile": "read_file",
+    "writeFile": "write_file",
+    "editFile": "edit_file"
+  }
+}

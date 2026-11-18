@@ -1,0 +1,17 @@
+{
+  "description": "FAES v2.0.0 Claude Code Shell Hook Configuration",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "command": "node .claude/hooks/pre-tool-use.js"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "WriteFile|EditFile",
+        "command": "node .claude/hooks/post-tool-use.js"
+      }
+    ]
+  }
+}

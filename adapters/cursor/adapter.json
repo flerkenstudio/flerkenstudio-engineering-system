@@ -1,0 +1,20 @@
+{
+  "agent": "cursor",
+  "tier": 2,
+  "status": "supported",
+  "instructionFile": ".cursorrules",
+  "rulesDirectory": ".cursor/rules",
+  "skillRoots": {
+    "workspace": ".cursor/rules"
+  },
+  "hooks": {
+    "supported": false,
+    "reason": "Cursor does not support external lifecycle execution hooks"
+  },
+  "toolMapping": {
+    "terminal": "terminal",
+    "readFile": "read_file",
+    "writeFile": "edit_file",
+    "editFile": "edit_file"
+  }
+}

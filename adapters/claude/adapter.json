@@ -1,0 +1,23 @@
+{
+  "agent": "claude",
+  "tier": 2,
+  "status": "supported",
+  "instructionFile": "CLAUDE.md",
+  "globalInstructionFile": "~/.claude/CLAUDE.md",
+  "skillRoots": {
+    "workspace": ".claude/skills",
+    "global": "~/.claude/skills"
+  },
+  "hooks": {
+    "supported": true,
+    "format": "shell",
+    "configFile": ".claude/hooks.json",
+    "events": ["PreToolUse", "PostToolUse", "Stop"]
+  },
+  "toolMapping": {
+    "terminal": "Bash",
+    "readFile": "ReadFile",
+    "writeFile": "WriteFile",
+    "editFile": "EditFile"
+  }
+}
