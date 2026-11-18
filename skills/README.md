@@ -1,4 +1,4 @@
-# FAES skills index — v1.1.0
+# FAES skills index — v1.2.0
 
 | Skill | Use when |
 |---|---|

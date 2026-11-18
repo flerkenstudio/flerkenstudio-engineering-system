@@ -53,3 +53,36 @@ Official docs: https://antigravity.google/docs/skills
 ## Global instructions (optional)
 
 Run `Install-Global.ps1 -InstallGlobalInstructions` to install `global/AGENTS.md` as `~/.gemini/AGENTS.md`. The script preserves an existing global `AGENTS.md`; merge the content manually if one already exists.
+
+
+## FAES v1.2.0 — ECC integration
+
+FAES remains the global engineering contract. ECC supports two Antigravity targets:
+
+- **Global plugin:** `~/.gemini/config/plugins/ecc/` using `--target antigravity-home --profile core --enable-hooks`. This is documented upstream as experimental.
+- **Project-local adapter:** `<project>/.agents/` using `--target antigravity --profile minimal --no-hooks`.
+
+FAES v1.2.0 installs global hooks once and disables project-local hooks to avoid duplicate event handling. The global hook profile defaults to `standard`, and the wrapper does not set `ECC_DISABLED_HOOKS`.
+
+From the FAES repository root:
+
+```powershell
+# Global FAES rules and skills
+.\\install\\Install-Global.ps1 -InstallGlobalInstructions
+
+# Global ECC plugin and lifecycle hooks
+.\\install\\Install-ECC-Global.ps1
+.\\install\\Test-ECC-Global.ps1
+
+# Project-local ECC rules, workflows, skills, and agents
+.\\install\\Install-ECC-Workspace.ps1 -ProjectPath 'C:\\path\\to\\project'
+.\\install\\Test-ECC-Compatibility.ps1 -ProjectPath 'C:\\path\\to\\project'
+```
+
+The wrappers use the pinned official package `ecc-universal@2.2.3` and require Node.js 18+, npm, and network access. The global plugin includes an ECC memory MCP configuration; inspect `mcp_config.json` and the plugin files after installation.
+
+The upstream guide documents global `PreToolUse`, `PostToolUse`, and `Stop` handlers using Antigravity's protojson protocol. It also states that the native CLI validation has limits and does not prove automatic IDE discovery or live event execution. Validate in a disposable project before relying on hook enforcement.
+
+After installation, restart Antigravity and start a new conversation. Verify the plugin in Settings > Customizations, then perform the upstream-recommended safe/denied-command and edit/Stop smoke tests using disposable files. A disk-level report is not proof of host discovery or hook execution.
+
+See `integrations/ecc/HOOK-COMPATIBILITY.md` and `docs/COMPATIBILITY-AUDIT-ECC.md`.

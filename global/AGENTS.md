@@ -19,3 +19,8 @@ These are cross-project defaults. Project-level `AGENTS.md` and explicit user-ap
 - For non-trivial new logic, add a focused test or self-check; report any meaningful checks not run.
 - For non-trivial coding, combine `karpathy-guidelines` and `ponytail` when available; use domain skills only when relevant.
 - For reviews, `code-review` is the broad review and `ponytail-review` adds a simplicity/YAGNI pass; avoid duplicate findings.
+
+
+## FAES + ECC coordination
+
+FAES is the global source of engineering standards. ECC may provide a global Antigravity plugin/hook runtime and optional project-local capabilities when installed through its official adapters. The global adapter is experimental; verify it in a disposable workspace. Do not hand-copy hook configuration or install project-local hooks on top of the global runtime. Project-specific ECC components must not override FAES security, testing, simplicity, or user-approval requirements.

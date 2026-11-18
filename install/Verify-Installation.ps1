@@ -23,4 +23,4 @@ foreach ($root in $Roots) {
   }
 }
 if ($Missing.Count -gt 0) { throw "Missing $($Missing.Count) skill file(s). See messages above." }
-Write-Host 'All expected FAES v1.1.0 skill files are present. Host discovery still needs an Agent-side check.' -ForegroundColor Green
+Write-Host 'All expected FAES v1.2.0 skill files are present. Host discovery still needs an Agent-side check.' -ForegroundColor Green

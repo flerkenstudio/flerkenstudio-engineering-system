@@ -1,0 +1,28 @@
+{
+  "name": "FAES ECC Bridge",
+  "faes_version": "1.2.0",
+  "upstream": "https://github.com/affaan-m/ECC",
+  "package": "ecc-universal",
+  "pinned_version": "2.2.3",
+  "target": "antigravity",
+  "scope": "global and project-local",
+  "native_layout": ".agents/",
+  "native_components": [
+    "global plugin: rules, workflows, skills, agents, memory MCP, hooks",
+    "project-local: rules, workflows, skills, agents"
+  ],
+  "hooks": {
+    "status": "supported-experimental-global-plugin",
+    "installed": false,
+    "scope": "global-only",
+    "profile": "standard",
+    "disabled_hook_ids": [],
+    "project_local_hooks": false,
+    "reason": "Avoid duplicate event handling when global and project-local ECC are both installed.",
+    "configured_by_installer": true
+  },
+  "source_vendored": false,
+  "global_target": "antigravity-home",
+  "global_profile": "core",
+  "project_profile": "minimal"
+}

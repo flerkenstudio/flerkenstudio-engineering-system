@@ -69,3 +69,15 @@ Summarize: implemented behavior, important design decisions, files changed, comm
 
 ## Change control
 Do not deploy, publish, delete data, rotate production credentials, incur paid costs, or perform irreversible actions without explicit user authorization. Never expose secrets in output.
+
+
+## ECC integration (FAES v1.2.0)
+
+FAES remains the authoritative engineering contract. ECC is an optional capability provider; it must not silently replace FAES rules or duplicate existing skills.
+
+- Use ECC's documented experimental global Antigravity plugin for global components/hooks and its native Antigravity 2.0 adapter for project-local `.agents/` components.
+- Install ECC from the official, pinned `ecc-universal` package through `install/Install-ECC-Global.ps1` and `install/Install-ECC-Workspace.ps1`; do not use third-party mirrors or copy ECC's Codex `.agents/` packaging wholesale.
+- Keep FAES globally installed through the existing FAES global installer. ECC's global `antigravity-home` adapter is experimental; its project-local adapter is the native `.agents/` layout.
+- FAES standards take precedence when an ECC rule conflicts. Preserve FAES-owned files and review collisions before resolving them.
+- Enable ECC lifecycle hooks only through the official global `antigravity-home` installer. Do not copy Claude-specific hook definitions manually. Keep project-local hooks disabled when the global hook runtime is installed to avoid duplicate event handling. The global adapter is experimental and requires live validation.
+- Do not run ECC install, repair, or uninstall against a workspace without reviewing the proposed changes. Keep the upstream ECC install-state file intact so its lifecycle tools can track managed files.

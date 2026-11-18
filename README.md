@@ -8,7 +8,7 @@ A reusable, production-minded engineering playbook for Google Antigravity Agent/
 - `instructions/`: detailed engineering standards for humans and agents.
 - `templates/`: PRD, architecture, API, database, security, ADR and project starter templates.
 - `workflows/`: practical step-by-step delivery playbooks.
-- `install/`: Windows PowerShell scripts for global and workspace installation.
+- `install/`: Windows PowerShell scripts for global, workspace, ECC integration, and verification.
 - `examples/`: sample project configuration.
 
 ## Quick start — Antigravity Agent (no CLI required)
@@ -54,6 +54,37 @@ FAES has one shared set of `AGENTS.md` rules and `SKILL.md` skills. Use the same
 - Antigravity CLI / other compatible skill hosts: install the same skills with the supplied PowerShell scripts or the host's documented skill mechanism. Do not install the upstream Ponytail plugin on top of bundled FAES Ponytail skills unless you intentionally want a separate duplicate installation.
 - The bundled `ponytail` skill supports lite/full/ultra/off as task instructions. Mode persistence, lifecycle hooks, and slash-command registration depend on the host; FAES does not claim those features when the host lacks them.
 - Use `install/Verify-Installation.ps1` to verify the local skill files. This verifies files on disk, not whether an AI host has loaded them.
+
+
+
+## ECC integration — v1.2.0
+
+FAES remains the primary engineering contract. ECC is an optional, upstream-maintained capability layer.
+
+- **Global:** install FAES skills/instructions and ECC's experimental native Antigravity plugin using `install/Install-Global.ps1` and `install/Install-ECC-Global.ps1`.
+- **Project:** install ECC's native rules, workflows, skills, and custom agents using `install/Install-ECC-Workspace.ps1`.
+- **Pinned upstream package:** `ecc-universal@2.2.3`, installed from the official npm registry when the wrapper is run.
+- **Hooks:** enabled once at global scope with the standard profile; project-local hooks are disabled to avoid duplicate event handling. The global plugin is experimental.
+- **Duplicates:** run both ECC verification scripts after installation and review any FAES skill-name overlaps.
+
+Example:
+
+```powershell
+# Global FAES baseline
+.\\install\\Install-Global.ps1 -InstallGlobalInstructions
+
+# Global ECC plugin + lifecycle hooks
+.\\install\\Install-ECC-Global.ps1
+
+# Project-local ECC customizations (hooks disabled here)
+.\\install\\Install-ECC-Workspace.ps1 -ProjectPath 'D:\\path\\to\\project'
+
+# Verify both scopes
+.\\install\\Test-ECC-Global.ps1
+.\\install\\Test-ECC-Compatibility.ps1 -ProjectPath 'D:\\path\\to\\project'
+```
+
+The global plugin uses ECC's documented `antigravity-home` target and is experimental. Node.js 18+, npm, and network access are required. Review the plugin manifest, hook configuration, and MCP configuration after installation. See `integrations/ecc/README.md` and `docs/COMPATIBILITY-AUDIT-ECC.md`.
 
 ## Safe usage model
 

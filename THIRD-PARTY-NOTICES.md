@@ -13,3 +13,10 @@ FAES v1.1.0 is an independently maintained engineering playbook. The following p
    - The upstream repository identifies its license as MIT. Review the upstream repository's current license before copying or redistributing any of its files.
 
 No upstream benchmark claims are represented as FAES measurements. FAES does not claim the upstream projects' measured code, speed, token, or cost savings.
+
+
+3. **Everything Claude Code (ECC)** — https://github.com/affaan-m/ECC
+   - FAES v1.2.0 provides an integration bridge to ECC's official `ecc-universal` package and its documented native Antigravity adapter.
+   - ECC source files are not vendored or modified in this FAES distribution. The bridge requests the official npm package at a pinned version at install time.
+   - ECC's upstream repository identifies its license as MIT. Review the upstream `LICENSE` and package provenance before each future version bump. ECC remains the work of its original authors; FAES does not claim ownership or authorship of ECC.
+   - ECC hooks are not copied or enabled by this integration because the documented Antigravity adapter does not expose a native hook mapping. See `docs/COMPATIBILITY-AUDIT-ECC.md`.
