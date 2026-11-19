@@ -10,9 +10,9 @@
   },
   "hooks": {
     "supported": true,
-    "format": "protojson",
-    "configFile": "hooks.json",
-    "events": ["PreToolUse", "PostToolUse", "Stop"]
+    "format": "hooks.json",
+    "configFile": ".agents/hooks.json",
+    "events": ["PreToolUse"]
   },
   "toolMapping": {
     "terminal": "run_command",

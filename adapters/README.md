@@ -1,6 +1,6 @@
-# FAES Multi-Agent Adapter Layer — v2.0.0
+# FAES Multi-Agent Adapter Layer — v3.0.0
 
-FAES v2.0.0 separates core engineering rules and skills from agent-specific runtime mechanics. The FAES Core is shared and vendor-neutral, while modular adapters map core capabilities to each target AI coding agent.
+FAES v3.0.0 separates core engineering rules and skills from agent-specific runtime mechanics. The FAES Core is shared and vendor-neutral, while modular adapters map core capabilities to each target AI coding agent.
 
 ## Supported Agent Adapters
 

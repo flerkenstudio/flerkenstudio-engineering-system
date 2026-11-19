@@ -1,8 +1,10 @@
 [CmdletBinding()]
 param(
   [switch]$Force,
+  [Alias('instructions','i')]
   [switch]$InstallGlobalInstructions,
   [switch]$IncludeUnslop,
+  [switch]$IncludeBla,
   [string]$GlobalSkillsPath = (Join-Path $HOME '.gemini\config\skills')
 )
 $ErrorActionPreference = 'Stop'
@@ -24,6 +26,10 @@ $SkillsBackupDir = Join-Path $BackupRoot "skills-$Timestamp"
 Get-ChildItem -Directory $Source | ForEach-Object {
   if ($_.Name -eq 'unslop' -and -not $IncludeUnslop) {
     Write-Host "SKIP optional skill: unslop (use -IncludeUnslop to install)" -ForegroundColor DarkGray
+    return
+  }
+  if ($_.Name -eq 'release-hardening' -and -not $IncludeBla) {
+    Write-Host "SKIP optional skill: release-hardening (use -IncludeBla to install)" -ForegroundColor DarkGray
     return
   }
   $destination = Join-Path $GlobalSkillsPath $_.Name
@@ -61,4 +67,4 @@ if ($InstallGlobalInstructions) {
 }
 
 Write-Host "Global skills installed at: $GlobalSkillsPath" -ForegroundColor Cyan
-Write-Host "FAES v2.0.0 installation complete. Restart/refresh Antigravity to reload skills." -ForegroundColor Green
+Write-Host "FAES v3.0.0 installation complete. Restart/refresh Antigravity to reload skills." -ForegroundColor Green

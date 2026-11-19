@@ -4,15 +4,17 @@ set -euo pipefail
 FORCE=false
 INSTALL_INSTRUCTIONS=false
 INCLUDE_UNSLOP=false
+INCLUDE_BLA=false
 GLOBAL_SKILLS_PATH="${HOME}/.gemini/config/skills"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --force|-f) FORCE=true; shift ;;
-    --instructions|-i) INSTALL_INSTRUCTIONS=true; shift ;;
+    --instructions|-i|--install-global-instructions) INSTALL_INSTRUCTIONS=true; shift ;;
     --include-unslop) INCLUDE_UNSLOP=true; shift ;;
+    --include-bla) INCLUDE_BLA=true; shift ;;
     --path) GLOBAL_SKILLS_PATH="$2"; shift 2 ;;
-    *) echo "Unknown option: $1"; exit 1 ;;
+    *) echo "Unknown option: $1" >&2; exit 1 ;;
   esac
 done
 
@@ -34,6 +36,10 @@ for skill_dir in "${SOURCE_SKILLS}"/*/; do
   skill_name="$(basename "${skill_dir}")"
   if [[ "${skill_name}" == "unslop" && "${INCLUDE_UNSLOP}" != "true" ]]; then
     echo "SKIP optional skill: unslop (use --include-unslop to install)"
+    continue
+  fi
+  if [[ "${skill_name}" == "release-hardening" && "${INCLUDE_BLA}" != "true" ]]; then
+    echo "SKIP optional skill: release-hardening (use --include-bla to install)"
     continue
   fi
   dest="${GLOBAL_SKILLS_PATH}/${skill_name}"
@@ -69,4 +75,4 @@ if [[ "${INSTALL_INSTRUCTIONS}" == "true" ]]; then
   fi
 fi
 
-echo "Global FAES v2.0.0 skills successfully installed to ${GLOBAL_SKILLS_PATH}"
+echo "Global FAES v3.0.0 skills successfully installed to ${GLOBAL_SKILLS_PATH}"

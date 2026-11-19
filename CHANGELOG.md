@@ -1,5 +1,34 @@
 # Changelog
 
+## 3.0.0 - Security, review, and verification suite
+
+### Added
+- **Security suite**
+  - `skills/security-audit/`: Cloudflare's six-phase source-first security audit skill, vendored (MIT) with license and provenance; enhanced with Windows defense-in-depth pipeline (device namespace blocking, DOS reserved component validation, pre-open `lstat`, directory traversal checks, handle-based `fstat` checks, and anti-TOCTOU handle binding); upstream POSIX protections preserved.
+  - `skills/secret-scanning/`: TruffleHog-based leaked-credential workflow (external tool, AGPL-3.0, not vendored) with rotate-first remediation and an offline fallback.
+  - `scripts/faes-secret-guard.mjs`: zero-dependency, offline secret guard (staged diff or paths; redacted output; `faes-secret-ignore` suppression).
+  - `workflows/secret-scanning.md` and `workflows/security-audit.md`: depth-matched security workflows.
+  - `templates/project-starter/.pre-commit-config.yaml` and `.github/workflows/secret-scan.yml` (TruffleHog action pinned to a reviewed commit).
+- **Review**: `skills/code-review-ocr/`: bridge to Alibaba's Open Code Review CLI (Apache-2.0, external). Findings are treated as untrusted and merged with `code-review` / `ponytail-review`.
+- **Optional**: `skills/release-hardening/`: BLA (MIT) release hardening for software you own; opt-in via `--include-bla` / `-IncludeBla`.
+- **Claude Code hooks**: working `pre-tool-use.js` (blocks `git commit`/`push` with likely secrets) and `post-tool-use.js` (warns on secrets in written files), shipped in `adapters/claude/hooks/`.
+- **Integrations metadata** for each upstream under `integrations/` with pinned commits and license notes.
+- **Validation**: `scripts/validate.mjs` checks skill frontmatter, name/directory match, internal Markdown links, integration metadata, version consistency, and `SHA256SUMS.txt`; `scripts/generate-checksums.mjs` regenerates checksums.
+
+### Changed
+- `AGENTS.md` v3: security-depth skill selection, rotate-first secret rule, untrusted-scanner-output rule, license-respect rule.
+- Installers (PowerShell and POSIX): new optional `-IncludeBla` / `--include-bla`; cross-platform CLI argument parity (supports `--agent all`, `--install-global-instructions`, `--skip-global`); selective global uninstaller preserving custom and non-FAES skills; verification covers 26 default skills (also fixes `agent-reliability-self-debugging` missing from the index and verify lists) (`-RequireBla` / `--require-bla` for the optional one); Claude workspace install copies hook scripts (inactive until merged into `.claude/settings.json`).
+- `adapters/claude/hooks.json` rewritten to Claude Code's current `hooks` schema; the previous file referenced scripts that did not exist.
+- `adapters/antigravity/hooks.json` and adapter metadata aligned with Antigravity's `.agents/hooks.json` lifecycle hook schema (optional `PreToolUse` secret guard template).
+- `integrations/ecc/integration.json` `faes_version` corrected (was stuck at 1.2.0).
+- All adapter, README, skill index, and notices updated to 3.0.0.
+
+### Preserved
+- All 24 v2.0.0 skills (including `agent-reliability-self-debugging`), workflows, templates, instructions, ECC bridge, and the optional `unslop` skill. No breaking changes; new default skills are additive.
+
+### License decisions
+- TruffleHog is AGPL-3.0 and is therefore invoked only as an external tool; no code is copied into this MIT project.
+
 ## 2.0.0 - Multi-Agent AI Engineering System & Design Engineering
 
 ### Added

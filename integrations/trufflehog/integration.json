@@ -1,0 +1,15 @@
+{
+  "name": "trufflehog",
+  "type": "external-tool",
+  "skillPath": "skills/secret-scanning",
+  "upstream": {
+    "repository": "https://github.com/trufflesecurity/trufflehog",
+    "author": "Truffle Security Co.",
+    "pinnedCommit": "9529cc6177f50ed15e29cb886547749627e5f96e",
+    "license": "AGPL-3.0"
+  },
+  "vendored": false,
+  "defaultInstall": true,
+  "licenseNote": "AGPL-3.0 is incompatible with embedding into MIT FAES. FAES only invokes the separately installed binary, GitHub Action, or Docker image and ships no TruffleHog code.",
+  "fallback": "scripts/faes-secret-guard.mjs"
+}

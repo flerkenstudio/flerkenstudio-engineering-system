@@ -3,6 +3,7 @@ param(
   [string]$GlobalSkillsPath = (Join-Path $HOME '.gemini\config\skills'),
   [string]$ProjectPath,
   [switch]$RequireUnslop,
+  [switch]$RequireBla,
   [switch]$SkipGlobal
 )
 $ErrorActionPreference = 'Stop'
@@ -10,16 +11,24 @@ $ErrorActionPreference = 'Stop'
 $CoreSkills = @(
   'karpathy-guidelines','ponytail','ponytail-review','ponytail-audit','ponytail-debt','ponytail-gain','ponytail-help',
   'backend-engineering','frontend-engineering','database-design','api-design','security-review','testing-qa',
-  'code-review','product-requirements','devops-release','performance-engineering','project-onboarding'
+  'code-review','product-requirements','devops-release','performance-engineering','project-onboarding',
+  'agent-reliability-self-debugging'
 )
 
 $DesignSkills = @(
   'design-review','visual-qa','design-system','accessibility-review'
 )
 
-$Expected = $CoreSkills + $DesignSkills
+$SecuritySkills = @(
+  'security-audit','secret-scanning','code-review-ocr'
+)
+
+$Expected = $CoreSkills + $DesignSkills + $SecuritySkills
 if ($RequireUnslop) {
   $Expected += 'unslop'
+}
+if ($RequireBla) {
+  $Expected += 'release-hardening'
 }
 
 $Roots = @()

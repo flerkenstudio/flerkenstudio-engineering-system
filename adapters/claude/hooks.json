@@ -1,16 +1,20 @@
 {
-  "description": "FAES v2.0.0 Claude Code Shell Hook Configuration",
+  "description": "FAES v3.0.0 Claude Code hook configuration. Merge the \"hooks\" object into .claude/settings.json (or settings.local.json). Paths assume the hooks were installed to .claude/hooks/ by the FAES workspace installer.",
   "hooks": {
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "command": "node .claude/hooks/pre-tool-use.js"
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/pre-tool-use.js\"" }
+        ]
       }
     ],
     "PostToolUse": [
       {
-        "matcher": "WriteFile|EditFile",
-        "command": "node .claude/hooks/post-tool-use.js"
+        "matcher": "Write|Edit",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/post-tool-use.js\"" }
+        ]
       }
     ]
   }

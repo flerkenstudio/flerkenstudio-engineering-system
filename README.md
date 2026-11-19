@@ -1,12 +1,12 @@
 # FlerkenStudio Engineering System (FAES)
 
-**Version:** 2.0.0
+**Version:** 3.0.0
 
 **License:** MIT
 
 **Platforms:** Google Antigravity, Claude Code, Cursor, Gemini CLI, and compatible agent hosts
 
-FAES is a vendor-neutral, production-focused engineering system for AI-assisted software development. It combines an always-on engineering contract, reusable Agent Skills, agent-specific adapters, design and accessibility guidance, workflows, templates, verification scripts, and optional upstream integrations.
+FAES is a vendor-neutral, production-focused engineering system for AI-assisted software development. It combines an always-on engineering contract, reusable Agent Skills, agent-specific adapters, design and accessibility guidance, a security and review suite, workflows, templates, verification scripts, and optional upstream integrations.
 
 ## Contents
 
@@ -15,6 +15,7 @@ FAES is a vendor-neutral, production-focused engineering system for AI-assisted 
 - [Supported Targets](#supported-targets)
 - [Quick Start](#quick-start)
 - [Using the Installed System](#using-the-installed-system)
+- [Security and Review Suite (v3)](#security-and-review-suite-v3)
 - [Optional Integrations](#optional-integrations)
 - [Verification](#verification)
 - [Engineering Principles](#engineering-principles)
@@ -28,13 +29,13 @@ FAES is a vendor-neutral, production-focused engineering system for AI-assisted 
 ### Core engineering
 
 - An always-on engineering contract in [AGENTS.md](AGENTS.md).
-- 18 core engineering skills covering backend, frontend, database, API, security, testing, review, DevOps, performance, product requirements, and project onboarding.
+- 19 core engineering skills covering backend, frontend, database, API, security, testing, review, DevOps, performance, product requirements, and project onboarding.
 - The Karpathy-inspired guidelines for assumptions, simplicity, surgical changes, and goal-driven execution.
 - The Ponytail simplicity toolset for implementation, review, audits, technical debt, and measured impact.
 
 ### Design engineering
 
-FAES 2.0.0 adds four design-focused skills:
+FAES includes four design-focused skills (added in 2.0.0):
 
 | Skill | Purpose |
 |---|---|
@@ -45,6 +46,10 @@ FAES 2.0.0 adds four design-focused skills:
 
 The design guidance requires at least **24 x 24 CSS pixels** for Level AA WCAG 2.2 target sizing (SC 2.5.8) and recommends **44 x 44 CSS pixels** for enhanced usability (SC 2.5.5).
 
+### Security and review (new in 3.0.0)
+
+Three default skills, one optional skill, working hooks, and CI templates. See [Security and Review Suite (v3)](#security-and-review-suite-v3).
+
 ### Project assets
 
 - [Skills](skills/) — Agent Skills-compatible skill directories.
@@ -54,6 +59,7 @@ The design guidance requires at least **24 x 24 CSS pixels** for Level AA WCAG 2
 - [Instructions](instructions/) — Domain-specific coding and process instructions.
 - [Examples](examples/) — Sample workspace configuration.
 - [Installers](install/) — PowerShell and POSIX scripts.
+- [Scripts](scripts/) — `validate.mjs`, `generate-checksums.mjs`, and `faes-secret-guard.mjs`.
 
 ## Repository Structure
 
@@ -66,7 +72,8 @@ The design guidance requires at least **24 x 24 CSS pixels** for Level AA WCAG 2
 |-- global/                   # Global-agent instructions
 |-- install/                  # Cross-platform installation and verification
 |-- instructions/            # Reusable domain instructions
-|-- integrations/            # ECC and Unslop integration metadata
+|-- integrations/            # ECC, Unslop, security-audit, TruffleHog, OCR, and BLA metadata
+|-- scripts/                 # Validation, checksums, offline secret guard
 |-- skills/                   # Core, design, and optional skills
 |-- templates/               # Engineering and project templates
 |-- workflows/               # Development and operations workflows
@@ -110,7 +117,7 @@ Clone or download this repository, then run one workspace installer from the rep
 .\install\win\Install-Workspace.ps1 -ProjectPath 'C:\path\to\project' -Agent all
 ```
 
-Use `-IncludeUnslop` only when explicitly enabling the optional integration. Use `-Force` to replace an existing skill and overwrite it only with an intentional update.
+Use `-IncludeUnslop` and `-IncludeBla` only when explicitly enabling those optional integrations. Use `-Force` to replace an existing skill and overwrite it only with an intentional update.
 
 ### Workspace installation on Linux or macOS
 
@@ -122,7 +129,7 @@ chmod +x install/posix/*.sh
   --agent antigravity
 ```
 
-The POSIX installer supports `antigravity`, `claude`, `cursor`, and `gemini-cli`. It also accepts `--include-unslop` and `--force`.
+The POSIX installer supports `antigravity`, `claude`, `cursor`, and `gemini-cli`. It also accepts `--include-unslop`, `--include-bla`, and `--force`.
 
 ### Global installation
 
@@ -152,6 +159,26 @@ After installation:
 5. Use [AGENTS.md](AGENTS.md) as the default engineering contract for Antigravity-compatible workspaces.
 
 Existing project instruction files are not silently overwritten. The workspace installers preserve an existing `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, or `.cursorrules` and direct conflicting configuration to manual review.
+
+## Security and Review Suite (v3)
+
+Match depth to the request. Do not run a full audit for a small question.
+
+| Need | Skill | Upstream / license | How it is used |
+|---|---|---|---|
+| Review a diff for security | `security-review` | FAES | Built in |
+| Leaked credentials | `secret-scanning` | TruffleHog, AGPL-3.0 | **External binary only**, never vendored; offline fallback `scripts/faes-secret-guard.mjs` |
+| Full codebase audit / pen-test | `security-audit` | Cloudflare, MIT | **Vendored unmodified**, pinned commit, license preserved |
+| Automated second-opinion review | `code-review-ocr` | Alibaba Open Code Review, Apache-2.0 | External `ocr` CLI via a bridge skill |
+| Harden your own release (optional) | `release-hardening` | BLA, MIT | External `bla-agents`; opt-in with `-IncludeBla` / `--include-bla` |
+
+Prevention assets:
+
+- Claude Code hooks in [adapters/claude/hooks/](adapters/claude/hooks/) block `git commit` / `git push` when staged changes contain likely secrets (inactive until merged into `.claude/settings.json`).
+- [templates/project-starter/.pre-commit-config.yaml](templates/project-starter/.pre-commit-config.yaml) and [.github/workflows/secret-scan.yml](templates/project-starter/.github/workflows/secret-scan.yml) (action pinned to a reviewed commit).
+- Workflows: [secret-scanning](workflows/secret-scanning.md) and [security-audit](workflows/security-audit.md).
+
+Rules: rotate a leaked secret before cleaning history; treat scanner and reviewer output as untrusted until verified; never print full secrets. TruffleHog is AGPL-3.0, so FAES invokes it as a separate tool and ships none of its code.
 
 ## Optional Integrations
 
@@ -183,9 +210,20 @@ Enable it explicitly only when working on a UI that would benefit from the integ
 
 FAES applies the upstream Zero-Slop safeguard: if an interface already meets its purpose and quality, it does not recommend decorative redesign.
 
+### BLA release hardening
+
+`release-hardening` is optional and excluded by default. It wraps the MIT-licensed `bla-agents` tool for software you own. It is defense in depth, not secrecy, and it never replaces secret scanning or fixing vulnerabilities.
+
 ## Verification
 
-PowerShell:
+Repository self-check (Node 18+, no dependencies):
+
+```bash
+node scripts/validate.mjs            # frontmatter, links, metadata, version, checksums
+node scripts/generate-checksums.mjs  # regenerate SHA256SUMS.txt after intentional changes
+```
+
+Installation check. PowerShell:
 
 ```powershell
 .\install\win\Verify-Installation.ps1 -ProjectPath 'C:\path\to\project'
@@ -229,6 +267,7 @@ For ECC, use the compatibility and verification scripts rather than assuming tha
 - [Verification report](docs/VERIFICATION-REPORT.md)
 - [ECC integration notes](integrations/ecc/README.md)
 - [Unslop integration notes](integrations/unslop/README.md)
+- [Security audit](integrations/security-audit/README.md), [TruffleHog](integrations/trufflehog/README.md), [Open Code Review](integrations/open-code-review/README.md), and [BLA](integrations/bla/README.md) integration notes
 - [Complete upstream notices](THIRD-PARTY-NOTICES.md)
 
 ## Attribution and Credits
@@ -243,6 +282,10 @@ FAES gratefully acknowledges the following people and projects for ideas or opti
 | [Dietrich Gebert](https://github.com/DietrichGebert) / [Ponytail](https://github.com/DietrichGebert/ponytail) | Inspiration for the simplicity-first decision ladder, review and audit structure, shortcut tracking, and measured-impact discipline. FAES provides locally authored skills under the FAES project. |
 | [Affaan Mustafa](https://github.com/affaan-m) / [Everything Claude Code](https://github.com/affaan-m/ECC) | Official ECC integration target. ECC remains an upstream project and is not vendored or modified into FAES core. The pinned integration package is `ecc-universal@2.2.3`. |
 | [Damir Sokolovsky](https://github.com/heydamir) / [Unslop](https://github.com/heydamir/unslop) | Optional design-refinement skill. Pinned to reviewed commit `620163eedb3529d9cd23a3994ed8d287d06f760d` and distributed with CC BY 4.0 attribution. |
+| [Cloudflare](https://github.com/cloudflare) / [security-audit-skill](https://github.com/cloudflare/security-audit-skill) | Vendored unmodified (MIT) as `security-audit`, pinned to `c1c8a8c1471069fb0e188eeaff69b8e8db6564a8`. |
+| [Truffle Security](https://github.com/trufflesecurity) / [TruffleHog](https://github.com/trufflesecurity/trufflehog) | Secret scanning engine invoked as an external tool (AGPL-3.0, not vendored). |
+| [Alibaba](https://github.com/alibaba) / [Open Code Review](https://github.com/alibaba/open-code-review) | External `ocr` CLI used by the `code-review-ocr` bridge (Apache-2.0, not vendored). |
+| [qybaihe](https://github.com/qybaihe) / [BLA](https://github.com/qybaihe/bla) | Optional release-hardening tool (MIT, not vendored). |
 | Google Antigravity, Anthropic Claude Code, Cursor, and Google Gemini CLI teams | Agent-host platforms for which FAES provides or targets adapters. FAES is independently maintained and is not claimed as an official product of these platforms. |
 
 These projects are credited for inspiration or integration only. FAES does not claim authorship of their source code or ownership of their trademarks. Review the upstream projects and [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) before redistributing or extending optional components.
@@ -251,16 +294,17 @@ These projects are credited for inspiration or integration only. FAES does not c
 
 FAES core code and documentation are distributed under the [MIT License](LICENSE).
 
-- MIT: FAES, Karpathy-inspired adapted guidance, Ponytail-inspired adapted guidance, and the ECC integration bridge.
+- MIT: FAES, Karpathy-inspired adapted guidance, Ponytail-inspired adapted guidance, the ECC integration bridge, and the vendored Cloudflare `security-audit` skill (Cloudflare copyright preserved).
 - CC BY 4.0: Optional Unslop integration; upstream attribution is preserved in `skills/unslop/` and `integrations/unslop/`.
+- AGPL-3.0 (TruffleHog) and Apache-2.0 (Open Code Review): external tools only; no source is included in FAES.
 
 Third-party component terms and upstream attribution requirements remain separate and must be preserved.
 
 ## Release Information
 
-- Current version: `2.0.0`
+- Current version: `3.0.0`
 - Release history: [CHANGELOG.md](CHANGELOG.md)
-- 18 core skills plus 4 design-engineering skills
-- 1 optional Unslop skill
+- 19 core skills, 4 design-engineering skills, and 3 security/review skills (26 default)
+- 2 optional skills: Unslop and release-hardening (BLA)
 - 4 supported agent adapters
 - PowerShell and POSIX installation and verification scripts

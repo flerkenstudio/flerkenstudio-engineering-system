@@ -1,0 +1,20 @@
+{
+  "name": "bla",
+  "type": "optional-external-tool",
+  "skillPath": "skills/release-hardening",
+  "upstream": {
+    "repository": "https://github.com/qybaihe/bla",
+    "author": "BLA Contributors",
+    "pinnedCommit": "1d4d490f4d98f384f50a11622759cd7d6f8fd357",
+    "license": "MIT",
+    "npm": "bla-agents"
+  },
+  "vendored": false,
+  "defaultInstall": false,
+  "enableWith": "--include-bla / -IncludeBla",
+  "safeguards": [
+    "Own software only; see upstream DISCLAIMER.md",
+    "Dry run first; --apply needs explicit approval",
+    "Not a substitute for secret scanning, security review, or server-side secret storage"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "FAES ECC Bridge",
-  "faes_version": "1.2.0",
+  "faes_version": "3.0.0",
   "upstream": "https://github.com/affaan-m/ECC",
   "package": "ecc-universal",
   "pinned_version": "2.2.3",

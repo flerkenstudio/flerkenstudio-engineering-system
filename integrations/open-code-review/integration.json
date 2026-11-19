@@ -1,0 +1,15 @@
+{
+  "name": "open-code-review",
+  "type": "external-tool",
+  "skillPath": "skills/code-review-ocr",
+  "upstream": {
+    "repository": "https://github.com/alibaba/open-code-review",
+    "author": "Alibaba Group",
+    "pinnedCommit": "1363b96552c0a9bda86bcd0ba5b61a2d668c51dd",
+    "license": "Apache-2.0",
+    "npm": "@alibaba-group/open-code-review"
+  },
+  "vendored": false,
+  "defaultInstall": true,
+  "note": "FAES ships a locally authored bridge skill only. Upstream skills and plugins can be installed separately from the upstream repository."
+}

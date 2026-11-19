@@ -3,6 +3,7 @@ param(
   [Parameter(Mandatory=$true)][string]$ProjectPath,
   [ValidateSet('antigravity', 'claude', 'cursor', 'gemini-cli', 'all')][string]$Agent = 'antigravity',
   [switch]$IncludeUnslop,
+  [switch]$IncludeBla,
   [switch]$Force
 )
 $ErrorActionPreference = 'Stop'
@@ -15,13 +16,16 @@ if (-not (Test-Path (Join-Path $RepoRoot 'skills'))) {
 }
 $SourceSkills = Join-Path $RepoRoot 'skills'
 
-Write-Host "Installing FAES v2.0.0 into workspace: $ResolvedPath for agent target: $Agent" -ForegroundColor Cyan
+Write-Host "Installing FAES v3.0.0 into workspace: $ResolvedPath for agent target: $Agent" -ForegroundColor Cyan
 
 # Install skills based on agent target
 function Install-SkillsToDirectory([string]$targetDir) {
   New-Item -ItemType Directory -Force -Path $targetDir | Out-Null
   Get-ChildItem -Directory $SourceSkills | ForEach-Object {
     if ($_.Name -eq 'unslop' -and -not $IncludeUnslop) {
+      return
+    }
+    if ($_.Name -eq 'release-hardening' -and -not $IncludeBla) {
       return
     }
     $dest = Join-Path $targetDir $_.Name
@@ -54,6 +58,16 @@ if ($Agent -in @('claude', 'all')) {
     Copy-Item (Join-Path $RepoRoot 'adapters\claude\CLAUDE.md') $claudeFile
     Write-Host "  Created workspace CLAUDE.md" -ForegroundColor Green
   }
+  # Secret-guard hook scripts (not activated until merged into .claude/settings.json)
+  $hookDir = Join-Path $ResolvedPath '.claude\hooks'
+  New-Item -ItemType Directory -Force -Path $hookDir | Out-Null
+  foreach ($hook in @('pre-tool-use.js','post-tool-use.js','faes-secret-guard.mjs')) {
+    $hookDest = Join-Path $hookDir $hook
+    if (-not (Test-Path $hookDest) -or $Force) {
+      Copy-Item (Join-Path $RepoRoot "adapters\claude\hooks\$hook") $hookDest -Force
+    }
+  }
+  Write-Host "  Hook scripts copied to .claude\hooks. To enable, merge the 'hooks' object from adapters\claude\hooks.json into .claude\settings.json." -ForegroundColor Yellow
 }
 
 if ($Agent -in @('cursor', 'all')) {

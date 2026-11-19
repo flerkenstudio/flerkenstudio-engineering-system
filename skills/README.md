@@ -1,4 +1,4 @@
-# FAES skills index — v2.0.0
+# FAES skills index — v3.0.0
 
 ## Core Engineering Skills
 
@@ -22,6 +22,7 @@
 | `devops-release` | CI/CD, deployment, operations |
 | `performance-engineering` | Measured performance diagnosis/optimization |
 | `project-onboarding` | Read-only discovery of an unfamiliar repository |
+| `agent-reliability-self-debugging` | Hangs, timeouts, flaky tests/builds, or failed agent tasks: structured failure capture, root cause, safe recovery |
 
 ## Design Engineering Skills (v2.0.0)
 
@@ -32,10 +33,19 @@
 | `design-system` | Guiding design tokens, atomic component architecture, and UI libraries |
 | `accessibility-review` | WCAG 2.2 compliance verification (24×24px AA mandatory, 44×44px AAA preferred) |
 
+## Security & Review Skills (v3.0.0)
+
+| Skill | Use when |
+|---|---|
+| `secret-scanning` | Leaked-credential detection and remediation (TruffleHog external tool + offline fallback); before commits/releases |
+| `security-audit` | Full six-phase, source-first security audit or pen-test (vendored from Cloudflare, MIT); explicit requests only |
+| `code-review-ocr` | Optional second-opinion review with Alibaba's Open Code Review CLI, merged with `code-review` |
+
 ## Optional Integrations
 
 | Skill | Use when |
 |---|---|
 | `unslop` | Optional upstream design cleanup and typography refinement (Damir Sokolovsky, CC BY 4.0) |
+| `release-hardening` | Optional hardening of your own release artifacts against AI reverse engineering using BLA (MIT); opt-in with `--include-bla` |
 
 Each skill is an independent Agent Skills-compatible directory containing `SKILL.md` with YAML frontmatter.

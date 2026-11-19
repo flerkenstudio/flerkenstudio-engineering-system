@@ -7,7 +7,7 @@ These are cross-project defaults. Project-level `AGENTS.md` and explicit user-ap
 - Prefer the simplest complete implementation and make surgical changes.
 - Follow existing project conventions; do not force a preferred framework or architecture.
 - Validate untrusted inputs and enforce authorization server-side.
-- Never commit, reveal, or log secrets or unnecessary personal data.
+- Never commit, reveal, or log secrets or unnecessary personal data. If a secret leaks, rotate it first.
 - Do not run destructive production operations, deploy, publish, or incur paid costs without explicit authorization.
 - Test changed behavior and report exact commands/results; never claim unrun checks passed.
 - Report uncertainty, security implications, migrations, and remaining risks honestly.
